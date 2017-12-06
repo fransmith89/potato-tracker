@@ -14,7 +14,7 @@
         "email": "sharon@example.com",
         "date_joined": "2015-05-13T10:45:31.442Z"
     },
-    "model": "djangae.gaedatastoreuser",
+    "model": "gauth_datastore.gaedatastoreuser",
     "pk": 4954811711619072
 },
 {
@@ -32,7 +32,7 @@
         "email": "reginald@example.com",
         "date_joined": "2015-05-13T10:45:02.440Z"
     },
-    "model": "djangae.gaedatastoreuser",
+    "model": "gauth_datastore.gaedatastoreuser",
     "pk": 5236286688329728
 },
 {
@@ -50,7 +50,7 @@
         "email": "bob@example.com",
         "date_joined": "2015-05-13T10:44:50.932Z"
     },
-    "model": "djangae.gaedatastoreuser",
+    "model": "gauth_datastore.gaedatastoreuser",
     "pk": 5799236641751040
 },
 {
@@ -68,7 +68,7 @@
         "email": "marcella@example.com",
         "date_joined": "2015-05-13T10:45:20.296Z"
     },
-    "model": "djangae.gaedatastoreuser",
+    "model": "gauth_datastore.gaedatastoreuser",
     "pk": 6362186595172352
 },
 {

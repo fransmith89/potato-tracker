@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'djangosecure',
+    'djangae.contrib.contenttypes', # must be after 'django.contrib.contenttypes'
     'csp',
     'cspreports',
     'djangae.contrib.gauth',
