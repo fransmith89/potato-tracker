@@ -26,8 +26,6 @@ SECRET_KEY = get_app_config().secret_key
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-TEMPLATE_DEBUG = True
-
 INTERNAL_IPS = (
     '127.0.0.1',
     'localhost',
@@ -40,7 +38,7 @@ INSTALLED_APPS = (
     'djangae', # Djangae needs to come before django apps in django 1.7 and above
     'django.contrib.admin',
     'django.contrib.auth',
-    'djangae.contrib.gauth.datastore',
+    'djangae.contrib.gauth_datastore',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -72,17 +70,25 @@ AUTHENTICATION_BACKENDS = (
     'djangae.contrib.gauth.datastore.backends.AppEngineUserAPIBackend',
 )
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-    "django.contrib.auth.context_processors.auth",
-    "django.core.context_processors.debug",
-    "django.core.context_processors.i18n",
-    "django.core.context_processors.media",
-    "django.core.context_processors.static",
-    "django.core.context_processors.tz",
-    "django.contrib.messages.context_processors.messages",
-    "session_csrf.context_processor",
-    "tracker.site.context_processors.general",
-)
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                "django.contrib.auth.context_processors.auth",
+                "django.core.context_processors.debug",
+                "django.core.context_processors.i18n",
+                "django.core.context_processors.media",
+                "django.core.context_processors.static",
+                "django.core.context_processors.tz",
+                "django.contrib.messages.context_processors.messages",
+                "session_csrf.context_processor",
+                "tracker.site.context_processors.general",
+            ]
+        }
+    },
+]
 
 SECURE_CHECKS = [
     "djangosecure.check.sessions.check_session_cookie_secure",

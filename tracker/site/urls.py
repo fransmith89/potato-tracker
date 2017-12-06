@@ -1,4 +1,4 @@
-from django.conf.urls import url, patterns
+from django.conf.urls import url
 
 from .views import (
 	my_tickets_view,
@@ -12,8 +12,7 @@ from .views import (
 )
 
 
-urlpatterns = patterns(
-    '',
+urlpatterns = [
     url(r'^projects/$', project_list_view, name='project-list'),
     url(r'^projects/create/$', create_project_view, name='project-create'),
     url(
@@ -32,6 +31,7 @@ urlpatterns = patterns(
     	name='project-update'
 	),
     url(
-    	r'^projects/(?P<project_id>\d+)/$', project_view, name='project-detail'),
+    	r'^projects/(?P<project_id>\d+)/$', project_view, name='project-detail'
+    ),
     url(r'^$', my_tickets_view, name='my-tickets'),
-)
+]

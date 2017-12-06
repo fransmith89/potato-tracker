@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 
 import session_csrf
 session_csrf.monkeypatch()
@@ -6,7 +6,7 @@ session_csrf.monkeypatch()
 from django.contrib import admin
 admin.autodiscover()
 
-urlpatterns = patterns('',
+urlpatterns = [
     # Examples:
     url(r'^_ah/', include('djangae.urls')),
 
@@ -17,4 +17,4 @@ urlpatterns = patterns('',
 
     url(r'', include('djangae.contrib.gauth.urls')),
     url(r'', include('tracker.site.urls')),
-)
+]
