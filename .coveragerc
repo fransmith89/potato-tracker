@@ -1,0 +1,7 @@
+[run]
+source =
+    tracker/
+
+[report]
+omit=
+    tracker/tests/*
