@@ -47,6 +47,27 @@ class ProjectListView(ListView):
     model = Project
     template_name = "site/project_list.html"
 
+    def get_context_data(self):
+        """
+        Would prefer to do the logic for this in the query so we don't call the db for every
+        project (as it won't scale well), but it does not seem possible with what djangea
+        currently supports for querying.
+        """
+        projects = Project.objects.all().order_by('title')
+        if self.request.user.is_authenticated():
+            user_pk = self.request.user.pk
+            user_projects = []
+            non_user_projects = []
+
+            for project in projects:
+                if project.tickets.filter(assignees__contains=user_pk):
+                    user_projects.append(project)
+                else:
+                    non_user_projects.append(project)
+            return {'projects': user_projects + non_user_projects}
+
+        return {'projects': projects}
+
 
 project_list_view = ProjectListView.as_view()
 
