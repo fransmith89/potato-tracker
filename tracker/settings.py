@@ -147,4 +147,7 @@ if DEBUG:
 AUTH_USER_MODEL = 'djangae.GaeUser'
 
 from crispy_forms_foundation.settings import *
+
+CRISPY_TEMPLATE_PACK = 'foundation-5'
+
 from djangae.contrib.gauth.settings import *

@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth import get_user_model
 
 from crispy_forms_foundation.forms import FoundationModelForm
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit
 
 from .models import Project, Ticket
 
@@ -51,8 +53,20 @@ class TicketForm(BaseTrackerForm):
     def __init__(self, project=None, *args, **kwargs):
         self.project = project
         super(TicketForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_error_title = 'The following errors occurred:'
+        self.helper.add_input(Submit('submit', 'Submit', css_class='submit button'))
         self.fields['assignees'].queryset = get_user_model().objects.all()
 
     def pre_save(self, instance):
         instance.created_by = self.user
         instance.project = self.project
+
+    def clean(self):
+        if self.instance.pk and self.project.id != self.instance.project_id:
+            err_msg = (
+                'The ticket\'s current project id is not the same as the project id provided '
+                'in the URL. Return to the project\'s page and select the ticket again.'
+            )
+            self.add_error(None, err_msg)
+        return self.cleaned_data

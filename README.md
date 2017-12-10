@@ -15,6 +15,12 @@ To run the application locally:
 - Run `python manage.py loaddata site` to populate the site with the [following data](tracker/site/fixtures/site.json)
 - Run the application with `python manage.py runserver`
 
+For any style changes, build the changes using gulp:
+- Make sure you have [npm](https://www.npmjs.com/get-npm) and bower (`npm install -g bower`) installed
+- Install the node modules: `npm install`
+- Install the bower component: `bower install`
+- Run gulp to get the changes: `gulp`
+
 *Note: Before committing run the linter, using `flake8 tracker/site`, and fix any issues it finds*
 
 ## Testing
