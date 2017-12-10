@@ -57,6 +57,7 @@ class TicketForm(BaseTrackerForm):
         self.helper.form_error_title = 'The following errors occurred:'
         self.helper.add_input(Submit('submit', 'Submit', css_class='submit button'))
         self.fields['assignees'].queryset = get_user_model().objects.all()
+        self.fields['assignees'].label_from_instance = lambda obj: "%s" % (obj.email)
 
     def pre_save(self, instance):
         instance.created_by = self.user
