@@ -1,18 +1,54 @@
-from djangae.contrib.gauth_datastore.models import GaeDatastoreUser
+from django.contrib.auth.models import AnonymousUser
 from django.test import Client, RequestFactory, TestCase
 
-from tracker.site.models import Project, Ticket
-from tracker.site.views import create_ticket_view, update_ticket_view
+from tracker.site.models import Ticket
+from tracker.site.views import create_ticket_view, my_tickets_view, update_ticket_view
+from tracker.tests import test_helpers
 
 
-class TestMyTicketsView(TestCase):
+class TestMyTicketsViewIncludingMiddleWare(TestCase):
     def setup(self):
         self.client = Client()
 
-    def test_landing_page_loads(self):
+    def test_landing_page_loads_when_user_not_logged_in(self):
         res = self.client.get('/')
 
         self.assertEqual(res.status_code, 200)
+
+
+class TestMyTicketsView(TestCase):
+    def setUp(self):
+        self.request_factory = RequestFactory()
+
+    def test_landing_page_loads_when_user_not_logged_in(self):
+        request = self.request_factory.get('/')
+        request.user = AnonymousUser()
+
+        res = my_tickets_view(request)
+
+        self.assertEqual(res.status_code, 200)
+
+    def test_my_ticket_view_loads_when_user_logged_in(self):
+        request = self.request_factory.get('/')
+        request.user = test_helpers.create_bob_user()
+
+        res = my_tickets_view(request)
+
+        self.assertEqual(res.status_code, 200)
+
+    def test_my_ticket_view_returns_users_tickets(self):
+        bob_user = test_helpers.create_bob_user()
+        reginald_user = test_helpers.create_reginald_user()
+        teal_project = test_helpers.create_teal_project(bob_user)
+        bob_assigned_ticket = test_helpers.create_project_ticket(teal_project, bob_user, [bob_user, reginald_user])
+        non_bob_assigned_ticket = test_helpers.create_project_ticket(teal_project, reginald_user, [reginald_user])
+        request = self.request_factory.get('/')
+        request.user = bob_user
+
+        res = my_tickets_view(request)
+
+        self.assertEqual(len(res.context_data['tickets']), 1)
+        self.assertEqual(res.context_data['tickets'][0].id, bob_assigned_ticket.id)
 
 
 class TestUpdateTicketsView(TestCase):
@@ -20,43 +56,10 @@ class TestUpdateTicketsView(TestCase):
         self.request_factory = RequestFactory()
 
         # Pre-populate a user with two projects and one ticket
-        self.user = GaeDatastoreUser.objects.create_user(
-            pk=5799236641751040,
-            username="175155184063224062179",
-            first_name="",
-            last_name="",
-            is_active=True,
-            is_superuser=True,
-            is_staff=True,
-            last_login="2015-05-13T10:44:51.034Z",
-            password="test",
-            email="bob@example.com",
-            date_joined="2015-05-13T10:44:50.932Z",
-        )
-
-        self.teal_project = Project.objects.create(
-            title="Teal Drill",
-            modified="2015-05-13T13:36:44.764Z",
-            created_by=self.user,
-            created="2015-05-13T13:36:44.762Z",
-            pk=5466084618534912
-        )
-
-        self.rainbow_project = Project.objects.create(
-            title="Rainbow Smoke",
-            modified="2015-05-13T13:36:16.531Z",
-            created_by=self.user,
-            created="2015-05-13T13:36:16.531Z",
-            pk=6310509548666880
-        )
-
-        self.ticket = Ticket.objects.create(
-            title="Teal Drill's first ticket",
-            description="",
-            project=self.teal_project,
-            created_by=self.user,
-            pk=6466084618534912
-        )
+        self.user = test_helpers.create_bob_user()
+        self.teal_project = test_helpers.create_teal_project(self.user)
+        self.rainbow_project = test_helpers.create_rainbow_project(self.user)
+        self.ticket = test_helpers.create_project_ticket(self.teal_project, self.user)
 
         # Data to use for the update request
         self.new_title = 'A new title'
@@ -114,28 +117,9 @@ class TestCreateTicketsView(TestCase):
     def setUp(self):
         self.request_factory = RequestFactory()
 
-        # Pre-populate a user with two projects and one ticket
-        self.user = GaeDatastoreUser.objects.create_user(
-            pk=5799236641751040,
-            username="175155184063224062179",
-            first_name="",
-            last_name="",
-            is_active=True,
-            is_superuser=True,
-            is_staff=True,
-            last_login="2015-05-13T10:44:51.034Z",
-            password="test",
-            email="bob@example.com",
-            date_joined="2015-05-13T10:44:50.932Z",
-        )
-
-        self.teal_project = Project.objects.create(
-            title="Teal Drill",
-            modified="2015-05-13T13:36:44.764Z",
-            created_by=self.user,
-            created="2015-05-13T13:36:44.762Z",
-            pk=5466084618534912
-        )
+        # Pre-populate a user with a project
+        self.user = test_helpers.create_bob_user()
+        self.teal_project = test_helpers.create_teal_project(self.user)
 
         # # Data to use for the update request
         self.new_title = 'A new title'

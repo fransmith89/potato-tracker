@@ -29,7 +29,7 @@ class MyTicketsView(TemplateView):
         if self.request.user.is_authenticated():
             tickets = (
                 Ticket.objects
-                .filter(assignees=self.request.user.pk)
+                .filter(assignees__contains=self.request.user.pk)
                 .order_by('-modified')
             )
         else:
