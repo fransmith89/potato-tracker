@@ -22,7 +22,7 @@ gulp.task('concat-js', function() {
 	gulp.src([
 			baseSrcDir + '/components/fastclick/lib/fastclick.js',
 			baseSrcDir + '/components/jquery/dist/jquery.min.js',
-			baseSrcDir + '/components/foundation/js/foundation/foundation.min.js',
+			baseSrcDir + '/components/foundation/js/foundation.min.js',
 			baseSrcDir + '/js/app.js'
 		])
 		.pipe(concat('app.built.js'))
@@ -31,7 +31,7 @@ gulp.task('concat-js', function() {
 
 
 gulp.task('copy-styles', function () {
-	gulp.src(baseSrcDir + '/css/*.css').pipe(gulp.dest(baseDestDir + '/css/'));
+	gulp.src(baseSrcDir + '/css/*.{css,ttf,woff}').pipe(gulp.dest(baseDestDir + '/css/'));
 });
 
 gulp.task('copy-js', function () {
