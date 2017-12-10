@@ -12,14 +12,14 @@ The application is written using the [Djangae](http://djangae.readthedocs.org/en
 
 To run the application locally:
 - Run `./install_deps` (this will pip install requirements, and download the App Engine SDK)
-- Run `python manage.py loaddata site` to populate the site with the [following data](tracker/site/fixtures/site.json)
+- Run `python manage.py loaddata site --app_id potato-tracker` to populate the site with the [following data](tracker/site/fixtures/site.json)
 - Run the application with `python manage.py runserver --app_id potato-tracker`
 
-For any style changes, build the changes using gulp:
+To watch for front-end changes:
 - Make sure you have [npm](https://www.npmjs.com/get-npm) and bower (`npm install -g bower`) installed
 - Install the node modules: `npm install`
 - Install the bower component: `bower install`
-- Run gulp to get the changes: `gulp`
+- Run `gulp` in a separate terminal and it will watch (and build) any changes to .scss files
 
 *Note: Before committing run the linter, using `flake8 tracker/site`, and fix any issues it finds*
 
