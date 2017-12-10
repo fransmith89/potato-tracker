@@ -7552,3 +7552,9 @@ th.hide-for-touch {
 
 .content {
   margin-top: 1rem; }
+
+.panel {
+  word-break: break-all; }
+
+table tbody tr td {
+  word-break: break-all; }
