@@ -2,7 +2,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.test import Client, RequestFactory, TestCase
 
 from tracker.site.models import Ticket
-from tracker.site.views import create_ticket_view, my_tickets_view, update_ticket_view
+from tracker.site.views import create_ticket_view, delete_ticket_view, my_tickets_view, update_ticket_view
 from tracker.tests import test_helpers
 
 
@@ -121,7 +121,7 @@ class TestCreateTicketsView(TestCase):
         self.user = test_helpers.create_bob_user()
         self.teal_project = test_helpers.create_teal_project(self.user)
 
-        # # Data to use for the update request
+        # Data to use for the create request
         self.new_title = 'A new title'
         self.new_description = 'A new description'
         self.form_data = {
@@ -151,3 +151,31 @@ class TestCreateTicketsView(TestCase):
         self.assertEqual(self.new_title, new_ticket.title)
         self.assertEqual(self.teal_project.id, new_ticket.project_id)
         self.assertEqual(self.user.id, new_ticket.assignees.values()[0]['id'])
+
+
+class TestDeleteTicketsView(TestCase):
+    def setUp(self):
+        self.request_factory = RequestFactory()
+
+        # Pre-populate a user with a project and a ticket
+        self.user = test_helpers.create_bob_user()
+        self.teal_project = test_helpers.create_teal_project(self.user)
+        self.ticket = test_helpers.create_project_ticket(self.teal_project, self.user)
+
+    def test_delete_ticket_view_redirects_on_sucessful_delete(self):
+        ticket_delete_url = '/projects/{}/tickets/{}/delete'.format(self.teal_project.id, self.ticket.id)
+        request = self.request_factory.post(ticket_delete_url)
+        request.user = self.user
+
+        res = delete_ticket_view(request, project_id=self.teal_project.id, ticket_id=self.ticket.id)
+
+        self.assertEqual(res.status_code, 302)
+
+    def test_delete_ticket_view_deletes_ticket(self):
+        ticket_delete_url = '/projects/{}/tickets/{}/delete'.format(self.teal_project.id, self.ticket.id)
+        request = self.request_factory.post(ticket_delete_url)
+        request.user = self.user
+
+        res = delete_ticket_view(request, project_id=self.teal_project.id, ticket_id=self.ticket.id)
+
+        self.assertEqual(Ticket.objects.count(), 0)

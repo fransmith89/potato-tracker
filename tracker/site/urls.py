@@ -1,13 +1,14 @@
 from django.conf.urls import url
 
 from .views import (
-    my_tickets_view,
     create_project_view,
-    update_project_view,
-    project_view,
     create_ticket_view,
+    delete_ticket_view,
+    my_tickets_view,
+    project_list_view,
+    project_view,
+    update_project_view,
     update_ticket_view,
-    project_list_view
 )
 
 
@@ -23,6 +24,11 @@ urlpatterns = [
         r'^projects/(?P<project_id>\d+)/tickets/(?P<ticket_id>\d+)/edit$',
         update_ticket_view,
         name='ticket-update'
+    ),
+    url(
+        r'^projects/(?P<project_id>\d+)/tickets/(?P<ticket_id>\d+)/delete$',
+        delete_ticket_view,
+        name='ticket-delete'
     ),
     url(
         r'^projects/(?P<project_id>\d+)/edit/$',

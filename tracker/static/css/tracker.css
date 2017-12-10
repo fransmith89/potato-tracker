@@ -7559,6 +7559,9 @@ th.hide-for-touch {
 table tbody tr td {
   word-break: break-all; }
 
+h4 {
+  word-break: break-all; }
+
 .gray_message {
   font-style: italic;
   color: gray; }

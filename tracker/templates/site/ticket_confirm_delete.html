@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+    <form method='POST'>
+        {% csrf_token %}
+        <h4>Are you sure you want to delete {{object}}?</h4>
+        <input class= "button alert delete_button" type="submit" value="Confirm">
+        <a class="button secondary" href="{% url 'project-detail' project_id=object.project_id %}">Cancel</a>
+    </form>
+{% endblock %}
