@@ -9,3 +9,4 @@ six
 django-extensions
 crispy-forms-foundation
 pillow==4.3.0
+flake8==3.5.0
