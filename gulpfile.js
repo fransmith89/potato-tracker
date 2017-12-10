@@ -11,18 +11,22 @@ gulp.task('sass', function () {
         .pipe(gulp.dest(baseSrcDir + '/css'));
 });
 
-gulp.task('copy-foundation-fonts', function () {
-	gulp.src(baseSrcDir + '/components/foundation-icon-fonts/foundation-icons.{ttf,woff,eof,svg}')
-		.pipe(gulp.dest(baseSrcDir + '/css'));
+gulp.task('copy-third-party-styles', function () {
+	gulp.src([
+		baseSrcDir + '/components/foundation-icon-fonts/foundation-icons.{ttf,woff,eof,svg}',
+		baseSrcDir + '/components/select2/dist/css/select2.min.css'
+	])
+	.pipe(gulp.dest(baseSrcDir + '/css'));
 });
 
-gulp.task('build-styles', ['sass', 'copy-foundation-fonts'])
+gulp.task('build-styles', ['sass', 'copy-third-party-styles'])
 
 gulp.task('concat-js', function() {
 	gulp.src([
 			baseSrcDir + '/components/fastclick/lib/fastclick.js',
 			baseSrcDir + '/components/jquery/dist/jquery.min.js',
 			baseSrcDir + '/components/foundation/js/foundation.min.js',
+			baseSrcDir + '/components/select2/dist/js/select2.min.js',
 			baseSrcDir + '/js/app.js'
 		])
 		.pipe(concat('app.built.js'))

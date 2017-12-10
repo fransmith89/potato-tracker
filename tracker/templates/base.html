@@ -12,11 +12,12 @@
 	<link rel="apple-touch-icon" href="apple-touch-icon.png">
 
 	{% if debug %}
-	<script src="{{ STATIC_URL }}components/modernizr/modernizr.js"></script>
+		<script src="{{ STATIC_URL }}components/modernizr/modernizr.js"></script>
 	{% else %}
-	<script src="{{ STATIC_URL }}js/modernizr.js"></script>
+		<script src="{{ STATIC_URL }}js/modernizr.js"></script>
 	{% endif %}
 	<link rel="stylesheet" href="{{ STATIC_URL }}css/tracker.css">
+	<link rel="stylesheet" href="{{ STATIC_URL }}css/select2.min.css">
 </head>
 <body>
 		<!--[if lt IE 8]>
@@ -87,12 +88,13 @@
 			</footer>
 
 			{% if debug %}
-			<script src="{{ STATIC_URL }}components/jquery/dist/jquery.min.js"></script>
-			<script src="{{ STATIC_URL }}components/fastclick/lib/fastclick.js"></script>
-			<script src="{{ STATIC_URL }}components/foundation/js/foundation.min.js"></script>
-			<script src="{{ STATIC_URL }}js/app.js"></script>
+				<script src="{{ STATIC_URL }}components/jquery/dist/jquery.min.js"></script>
+				<script src="{{ STATIC_URL }}components/fastclick/lib/fastclick.js"></script>
+				<script src="{{ STATIC_URL }}components/foundation/js/foundation.min.js"></script>
+				<script src="{{ STATIC_URL }}components/select2/dist/js/select2.min.js"></script>
+				<script src="{{ STATIC_URL }}js/app.js"></script>
 			{% else %}
-			<script src="{{ STATIC_URL }}js/app.built.js"></script>
+				<script src="{{ STATIC_URL }}js/app.built.js"></script>
 			{% endif %}
-		</body>
-		</html>
+</body>
+</html>
